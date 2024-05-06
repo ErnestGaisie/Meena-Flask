@@ -26,6 +26,7 @@ class AIGenerate:
     def generate_image_from_image(self,image):
         # Load the empty room image
         imagePath = "empty_room.png"
+
         
         room_image = image
         room_image_size = room_image.size
@@ -53,7 +54,7 @@ class AIGenerate:
 
 
         # # Upload Image or use uploaded url for speed and tests
-        room_url = upload.upload_image(imagePath,"dalle/imagePath")
+        room_url = upload.upload_image_file(image,"dalle/imagePath")
         mask_url = upload.upload_image("mask.png","dalle/mask_image")
 
         print(room_url)

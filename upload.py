@@ -21,6 +21,14 @@ def upload_image(image_path, file_name):
     # Returns the public URL
     return blob.public_url
 
+def upload_image_file(image,file_name):
+    bucket = storage.bucket()
+    blob = bucket.blob(file_name)
+    blob.upload_from_file(image)
+    blob.make_public()
+    # Returns the public URL
+    return blob.public_url
+
 
 # Uncomment below for testing
 

@@ -63,16 +63,17 @@ def get_static_image(prompt):
 
 
 
-@app.route("/generate-ai-room/<image_url>",methods = ['GET','POST'])
-def generate_image(image_url):
+@app.route("/generate-ai-room",methods = ['GET','POST'])
+def generate_image():
 
     if request.method == 'POST':
         # Get the image file from the request
         image_file = request.files['image']
 
+    #Open Image file
     img = Image.open(image_file)
 
-    #Open Image file
+    
 
     #preprocess image
     resolved_image = utility.resolveImage(img)
