@@ -57,7 +57,7 @@ def generate_image(image_url):
     #preprocess image
     resolved_image = utility.resolveImage(img)
     #generate ai image
-    ai_generated = ai.generate_image_from_image(img)
+    ai_generated = ai.generate_image_from_image(resolved_image)
     #clean up with vertex
     #upload final image
     #return string
