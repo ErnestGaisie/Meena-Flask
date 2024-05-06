@@ -16,18 +16,35 @@ def hello_world():
 @app.route('/get-static-image/<image_url>', methods=['GET'])
 def get_static_image(image_url):
     # Define the image URL
-    first_image_url = "http://example.com/path/to/your/image.jpg"
-    second_image_url = "http://example.com/path/to/your/image.jpg"
+    first_image_url = "First Image"
+    second_image_url = "Second Image"
 
-    # Create a response object, including the image URL, a message, and a status code
-    response = {
+    if image_url == first_image_url:
+        response = {
         'status': 'success',
         'message': 'Image retrieved successfully.',
-        'image_url': first_image_url
+        'image_url': "First Image"
     }
+    elif image_url == second_image_url:
+        response = {
+        'status': 'success',
+        'message': 'Image retrieved successfully.',
+        'image_url': "Second Image"
+    }
+    else:
+        # Create a response object, including the image URL, a message, and a status code
+        response = {
+            'status': 'success',
+            'message': 'Image retrieved successfully.',
+            'image_url': "AI Image"
+        }
 
     # Return the response as JSON with a 200 OK status code
     return jsonify(response), 200
+
+
+
+
 
 
 if __name__ == '__main__':
