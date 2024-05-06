@@ -73,8 +73,6 @@ def generate_image():
     #Open Image file
     img = Image.open(image_file)
 
-    
-
     #preprocess image
     resolved_image = utility.resolveImage(img)
     #generate ai image

@@ -1,5 +1,7 @@
+import os
 import firebase_admin
 from firebase_admin import credentials, storage
+from PIL import Image
 
 # Path to your Firebase Admin SDK private key
 cred_path = 'ritapp-384418-firebase-adminsdk-6ozsd-d4140b321e.json'
@@ -21,11 +23,18 @@ def upload_image(image_path, file_name):
     # Returns the public URL
     return blob.public_url
 
-def upload_image_file(image,file_name):
+def upload_image_file(image:Image,file_name):
     bucket = storage.bucket()
     blob = bucket.blob(file_name)
-    blob.upload_from_file(image)
+    # Create a temporary file to save the image
+    temp_file_path = 'temp_image.png'
+    image.save(temp_file_path)
+    
+    blob.upload_from_filename(temp_file_path)
     blob.make_public()
+
+    if os.path.exists(temp_file_path):
+        os.remove(temp_file_path)
     # Returns the public URL
     return blob.public_url
 
