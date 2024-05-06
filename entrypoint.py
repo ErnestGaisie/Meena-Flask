@@ -1,5 +1,11 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+import util
+import aiGenerate
+
+utility = util.Util()
+
+ai = aiGenerate.AIGenerate()
 
 app = Flask(__name__)
 CORS(app)  # This enables CORS for all routes and methods
@@ -44,7 +50,24 @@ def get_static_image(image_url):
 
 
 
-
+@app.route("/generate-ai-room/<image_url>",methods = ['GET'])
+def generate_image(image_url):
+    #load image from url
+    img = utility.load_image_url(image_url)
+    #preprocess image
+    resolved_image = utility.resolveImage(img)
+    #generate ai image
+    ai_generated = ai.generate_image_from_image(img)
+    #clean up with vertex
+    #upload final image
+    #return string
+    response = {
+            'status': 'success',
+            'message': 'Image retrieved successfully.',
+            'image_url': ai_generated
+        }
+    
+    return jsonify(response), 200
 
 
 if __name__ == '__main__':
