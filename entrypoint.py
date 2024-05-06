@@ -1,7 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify,request
 from flask_cors import CORS
 import util
 import aiGenerate
+from PIL import Image
 
 utility = util.Util()
 
@@ -18,20 +19,32 @@ def hello_world():
     return 'Hello, World!'
 
 
+# UPLOAD IMAGE
+# @app.route('/upload', methods=['POST'])
+def upload_image():
+    # Get the image file from the request
+    image_file = request.files['image']
+
+    # Save the image to a file
+    image_file.save('uploaded_image.jpg')
+
+    return 'Image uploaded successfully'
+
+
 # GETTING STATIC DATA
-@app.route('/get-static-image/<image_url>', methods=['GET'])
-def get_static_image(image_url):
+@app.route('/get-static-image/<prompt>', methods=['GET','POST'])
+def get_static_image(prompt):
     # Define the image URL
     first_image_url = "First Image"
     second_image_url = "Second Image"
 
-    if image_url == first_image_url:
+    if prompt == first_image_url:
         response = {
         'status': 'success',
         'message': 'Image retrieved successfully.',
         'image_url': "First Image"
     }
-    elif image_url == second_image_url:
+    elif prompt == second_image_url:
         response = {
         'status': 'success',
         'message': 'Image retrieved successfully.',
@@ -50,10 +63,17 @@ def get_static_image(image_url):
 
 
 
-@app.route("/generate-ai-room/<image_url>",methods = ['GET'])
+@app.route("/generate-ai-room/<image_url>",methods = ['GET','POST'])
 def generate_image(image_url):
-    #load image from url
-    img = utility.load_image_url(image_url)
+
+    if request.method == 'POST':
+        # Get the image file from the request
+        image_file = request.files['image']
+
+    img = Image.open(image_file)
+
+    #Open Image file
+
     #preprocess image
     resolved_image = utility.resolveImage(img)
     #generate ai image

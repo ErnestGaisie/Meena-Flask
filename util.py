@@ -19,10 +19,11 @@ class Util:
 
 
     
-    def resolveImage(self,image_path):
-        img = self._resizeImage(image_path,1024,1024)
+    def resolveImage(self,image):
+        img = self._resizeImage(image,1024,1024)
         value = self._convertImage(img)
-        value.save(f"{image_path}_converted.png")
+        # value.save(f"output_converted.png")
+        return value
 
 
     ############### SUB METHODS  ###############
@@ -37,5 +38,7 @@ class Util:
         resized_image = image.resize((w,h))
         return resized_image
     ############################################
+
+
 
 
