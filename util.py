@@ -1,3 +1,4 @@
+import uuid
 import requests
 from PIL import Image
 from io import BytesIO
@@ -39,6 +40,9 @@ class Util:
         return resized_image
     ############################################
 
+    def generate_random_image_path(base_path="dalle/", extension=".png"):
+        random_filename = str(uuid.uuid4())  # Generates a random UUID
+        return f"{base_path}{random_filename}{extension}"
 
 
 

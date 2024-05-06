@@ -23,18 +23,19 @@ def upload_image(image_path, file_name):
     # Returns the public URL
     return blob.public_url
 
-def upload_image_file(image:Image,file_name):
+
+def upload_image_file(image: Image, file_name):
     bucket = storage.bucket()
     blob = bucket.blob(file_name)
     # Create a temporary file to save the image
     temp_file_path = 'temp_image.png'
     image.save(temp_file_path)
-    
+
     blob.upload_from_filename(temp_file_path)
     blob.make_public()
 
-    if os.path.exists(temp_file_path):
-        os.remove(temp_file_path)
+    # if os.path.exists(temp_file_path):
+    # os.remove(temp_file_path)
     # Returns the public URL
     return blob.public_url
 

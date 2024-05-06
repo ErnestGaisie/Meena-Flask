@@ -1,12 +1,14 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import util
 import aiGenerate
 from PIL import Image
+import os
 
 utility = util.Util()
 
 ai = aiGenerate.AIGenerate()
+os.environ["REPLICATE_API_TOKEN"] = "r8_AgUeh7zFNuPVD9sEi5S32s7Fag5AESA2zG65B"
 
 app = Flask(__name__)
 CORS(app)  # This enables CORS for all routes and methods
@@ -32,7 +34,7 @@ def upload_image():
 
 
 # GETTING STATIC DATA
-@app.route('/get-static-image/<prompt>', methods=['GET','POST'])
+@app.route('/get-static-image/<prompt>', methods=['GET', 'POST'])
 def get_static_image(prompt):
     # Define the image URL
     first_image_url = "First Image"
@@ -40,16 +42,16 @@ def get_static_image(prompt):
 
     if prompt == first_image_url:
         response = {
-        'status': 'success',
-        'message': 'Image retrieved successfully.',
-        'image_url': "First Image"
-    }
+            'status': 'success',
+            'message': 'Image retrieved successfully.',
+            'image_url': "First Image"
+        }
     elif prompt == second_image_url:
         response = {
-        'status': 'success',
-        'message': 'Image retrieved successfully.',
-        'image_url': "Second Image"
-    }
+            'status': 'success',
+            'message': 'Image retrieved successfully.',
+            'image_url': "Second Image"
+        }
     else:
         # Create a response object, including the image URL, a message, and a status code
         response = {
@@ -62,30 +64,29 @@ def get_static_image(prompt):
     return jsonify(response), 200
 
 
-
-@app.route("/generate-ai-room",methods = ['GET','POST'])
+@app.route("/generate-ai-room", methods=['GET', 'POST'])
 def generate_image():
 
     if request.method == 'POST':
         # Get the image file from the request
         image_file = request.files['image']
 
-    #Open Image file
+    # Open Image file
     img = Image.open(image_file)
 
-    #preprocess image
+    # preprocess image
     resolved_image = utility.resolveImage(img)
-    #generate ai image
+    # generate ai image
     ai_generated = ai.generate_image_from_image(resolved_image)
-    #clean up with vertex
-    #upload final image
-    #return string
+    # clean up with vertex
+    # upload final image
+    # return string
     response = {
-            'status': 'success',
-            'message': 'Image retrieved successfully.',
-            'image_url': ai_generated
-        }
-    
+        'status': 'success',
+        'message': 'Image retrieved successfully.',
+        'image_url': ai_generated
+    }
+
     return jsonify(response), 200
 
 
